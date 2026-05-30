@@ -1,0 +1,122 @@
+
+NOTE: if you use the Docker solution, I copy my wordcount.txt and homework java class into the homework folder under the git repository, then go inside the 
+namenode container. Here are the commands I used.  Note that I updated the github repo because of memory issue. The new update file also mount the homework 
+folder into the container. You can look at the changes in github.
+
+root@7e79467248e0:/tmp/homework/WordCount# hdfs dfs -put wordcount.txt /input/wordcount.txt
+put: `/input/wordcount.txt': No such file or directory: `hdfs://namenode:9000/input/wordcount.txt'
+root@7e79467248e0:/tmp/homework/WordCount# hdfs dfs -mkdir /input
+root@7e79467248e0:/tmp/homework/WordCount# hdfs dfs -put wordcount.txt /input/wordcount.txt
+
+
+root@7e79467248e0:/tmp/homework/WordCount#  hadoop jar target/WordCount-0.0.1-SNAPSHOT.jar org.schhun.WC_Runner /input/wordcount.txt /output2
+2026-05-30 23:02:58,589 INFO client.RMProxy: Connecting to ResourceManager at resourcemanager/172.19.0.4:8032
+2026-05-30 23:02:58,802 INFO client.AHSProxy: Connecting to Application History server at historyserver/172.19.0.7:10200
+2026-05-30 23:02:58,836 INFO client.RMProxy: Connecting to ResourceManager at resourcemanager/172.19.0.4:8032
+2026-05-30 23:02:58,836 INFO client.AHSProxy: Connecting to Application History server at historyserver/172.19.0.7:10200
+2026-05-30 23:02:59,112 WARN mapreduce.JobResourceUploader: Hadoop command-line option parsing not performed. Implement the Tool interface and execute your application with ToolRunner to remedy this.
+2026-05-30 23:02:59,157 INFO mapreduce.JobResourceUploader: Disabling Erasure Coding for path: /tmp/hadoop-yarn/staging/root/.staging/job_1780181784958_0002
+2026-05-30 23:02:59,351 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2026-05-30 23:02:59,964 INFO mapred.FileInputFormat: Total input files to process : 1
+2026-05-30 23:03:00,023 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2026-05-30 23:03:00,514 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2026-05-30 23:03:00,945 INFO mapreduce.JobSubmitter: number of splits:2
+2026-05-30 23:03:01,214 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+2026-05-30 23:03:01,683 INFO mapreduce.JobSubmitter: Submitting tokens for job: job_1780181784958_0002
+2026-05-30 23:03:01,685 INFO mapreduce.JobSubmitter: Executing with tokens: []
+2026-05-30 23:03:01,965 INFO conf.Configuration: resource-types.xml not found
+2026-05-30 23:03:01,966 INFO resource.ResourceUtils: Unable to find 'resource-types.xml'.
+2026-05-30 23:03:02,360 INFO impl.YarnClientImpl: Submitted application application_1780181784958_0002
+2026-05-30 23:03:02,419 INFO mapreduce.Job: The url to track the job: http://resourcemanager:8088/proxy/application_1780181784958_0002/
+2026-05-30 23:03:02,420 INFO mapreduce.Job: Running job: job_1780181784958_0002
+2026-05-30 23:03:12,168 INFO mapreduce.Job: Job job_1780181784958_0002 running in uber mode : false
+2026-05-30 23:03:12,182 INFO mapreduce.Job:  map 0% reduce 0%
+2026-05-30 23:03:20,633 INFO mapreduce.Job:  map 50% reduce 0%
+2026-05-30 23:03:21,683 INFO mapreduce.Job:  map 100% reduce 0%
+2026-05-30 23:03:26,764 INFO mapreduce.Job:  map 100% reduce 100%
+2026-05-30 23:03:28,853 INFO mapreduce.Job: Job job_1780181784958_0002 completed successfully
+2026-05-30 23:03:29,443 INFO mapreduce.Job: Counters: 54
+	File System Counters
+		FILE: Number of bytes read=2245
+		FILE: Number of bytes written=692975
+		FILE: Number of read operations=0
+		FILE: Number of large read operations=0
+		FILE: Number of write operations=0
+		HDFS: Number of bytes read=7566
+		HDFS: Number of bytes written=3635
+		HDFS: Number of read operations=11
+		HDFS: Number of large read operations=0
+		HDFS: Number of write operations=2
+		HDFS: Number of bytes read erasure-coded=0
+	Job Counters 
+		Launched map tasks=2
+		Launched reduce tasks=1
+		Rack-local map tasks=2
+		Total time spent by all maps in occupied slots (ms)=37464
+		Total time spent by all reduces in occupied slots (ms)=29960
+		Total time spent by all map tasks (ms)=9366
+		Total time spent by all reduce tasks (ms)=3745
+		Total vcore-milliseconds taken by all map tasks=9366
+		Total vcore-milliseconds taken by all reduce tasks=3745
+		Total megabyte-milliseconds taken by all map tasks=38363136
+		Total megabyte-milliseconds taken by all reduce tasks=30679040
+	Map-Reduce Framework
+		Map input records=44
+		Map output records=810
+		Map output bytes=8161
+		Map output materialized bytes=2564
+		Input split bytes=184
+		Combine input records=810
+		Combine output records=447
+		Reduce input groups=380
+		Reduce shuffle bytes=2564
+		Reduce input records=447
+		Reduce output records=380
+		Spilled Records=894
+		Shuffled Maps =2
+		Failed Shuffles=0
+		Merged Map outputs=2
+		GC time elapsed (ms)=292
+		CPU time spent (ms)=2700
+		Physical memory (bytes) snapshot=968433664
+		Virtual memory (bytes) snapshot=20099186688
+		Total committed heap usage (bytes)=656408576
+		Peak Map Physical memory (bytes)=358453248
+		Peak Map Virtual memory (bytes)=5583671296
+		Peak Reduce Physical memory (bytes)=255012864
+		Peak Reduce Virtual memory (bytes)=8932073472
+	Shuffle Errors
+		BAD_ID=0
+		CONNECTION=0
+		IO_ERROR=0
+		WRONG_LENGTH=0
+		WRONG_MAP=0
+		WRONG_REDUCE=0
+	File Input Format Counters 
+		Bytes Read=7382
+	File Output Format Counters 
+		Bytes Written=3635
+
+root@7e79467248e0:/tmp/homework/WordCount# hdfs dfs -ls /output2
+Found 2 items
+-rw-r--r--   3 root supergroup          0 2026-05-30 23:03 /output2/_SUCCESS
+-rw-r--r--   3 root supergroup       3635 2026-05-30 23:03 /output2/part-00000
+root@7e79467248e0:/tmp/homework/WordCount# hdfs dfs -cat /output2/part-00000
+2026-05-30 23:06:13,536 INFO sasl.SaslDataTransferClient: SASL encryption trust check: localHostTrusted = false, remoteHostTrusted = false
+10	1
+America	1
+American	1
+As	2
+But	2
+.....   ....
+work	1
+workers	1
+writer	1
+root@7e79467248e0:/tmp/homework/WordCount# 
+
+NOTE:
+If you run the same command again, you will get
+Exception in thread "main" org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://namenode:9000/output2 already exists
+root@ff9aedc4b333:/tmp/homework/WordCount# hdfs dfs -rm -r /output2       
+Deleted /output2
+

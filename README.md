@@ -25,7 +25,22 @@ Run `docker network inspect` on the network (e.g. `docker-hadoop-spark-hive_defa
 * Resource manager: http://<dockerhadoop_IP_address>:8088/
 * Spark master: http://<dockerhadoop_IP_address>:8080/
 * Spark worker: http://<dockerhadoop_IP_address>:8081/
-* Hive: http://<dockerhadoop_IP_address>:10000
+* Hive: http://<dockerhadoop_IP_address>:10000 (disabled by default; see below)
+
+## Memory and optional services
+
+Several services in the original stack (`hive-server`, `hive-metastore`, `hive-metastore-postgresql`, and `presto-coordinator`) are **commented out** in `docker-compose.yml` by default.
+
+On a typical Docker Desktop setup with about **4 GB** of memory assigned to Docker, running the full stack alongside Hadoop YARN can exhaust available RAM. When that happens, the Linux OOM killer terminates the **ResourceManager** process. YARN then restarts, port `8032` drops briefly, and MapReduce jobs fail with errors such as:
+
+```
+java.io.EOFException ... destination host is: "resourcemanager":8032
+Connection refused ... resourcemanager:8032
+```
+
+The Hadoop core (HDFS + YARN) and Spark containers need roughly 3 GB on their own. Keeping Hive and Presto off by default leaves enough headroom for MapReduce homework and similar jobs.
+
+To re-enable Hive or Presto, uncomment the relevant blocks in `docker-compose.yml` and run `docker compose up -d`. For a full stack, increase Docker Desktop memory to **8 GB or more** (Settings → Resources → Memory).
 
 ## Important note regarding Docker Desktop
 Since Docker Desktop turned “Expose daemon on tcp://localhost:2375 without TLS” off by default there have been all kinds of connection problems running the complete docker-compose. Turning this option on again (Settings > General > Expose daemon on tcp://localhost:2375 without TLS) makes it all work. I’m still looking for a more secure solution to this.
